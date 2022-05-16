@@ -1,0 +1,45 @@
+PARSER_BEGIN(test)
+class test
+{
+	public static void main(String[] args )throws ParseException
+	{
+		try
+		{
+			test analizador = new test(System.in);
+
+			analizador.Iniciar();
+
+			System.out.println("La cadena fue aceptada correctamente");
+		}
+		catch(ParseException e)
+		{
+			System.out.println("Hubo un error y la cadena no fue aceptada");
+		}
+	}
+}
+PARSER_END(test)
+
+TOKEN:
+{
+  <letra:["a"-"z","A"-"Z"]>
+| <NUMBER: (["0"-"9","."])+ > {System.out.println("NUMERO -> "+image+"\r\n");}
+| <URL: (["w"])+([".","a"-"z","A"-"Z"])* ([".","c","o","m"])+ > {System.out.println("URL -> "+image+"\r\n");}
+| <CORREO: (["a"-"z"]) + (["@","h","o","t","m","a","i","l",".","c","o","m"])+ > {System.out.println("CORREO -> "+image+"\r\n");}
+| <IDENTIFIER: ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])* > {System.out.println("ID -> "+image+"\r\n");}
+
+}
+
+SKIP :
+{
+    " "
+    |" \t "
+    |" \r "
+    |" \n "
+}
+
+void Iniciar() :
+{}
+	{
+		<IDENTIFIER><NUMBER><URL><CORREO><EOF>
+	}
+
